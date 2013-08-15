@@ -1,14 +1,19 @@
 from flask.ext.script import Manager, Server
+import sys 
 
 from todo import app
+
 import todo.settings as settings
 import os
+
+PORT=8000
+PORT=sys.argv[2]
 
 app.debug = settings.debug
 app.config['SECRET_KEY'] = settings.secret_key
 
 manager = Manager(app)
-manager.add_command('runserver', Server(host='0.0.0.0', port=os.environ['PORT']))
+manager.add_command('runserver', Server(host='0.0.0.0', port=PORT))
 
 
 @manager.command
