@@ -8,7 +8,7 @@ app.debug = settings.debug
 app.config['SECRET_KEY'] = settings.secret_key
 
 manager = Manager(app)
-manager.add_command('runserver', Server(host='0.0.0.0', port='os.environ['PORT']'))
+manager.add_command('runserver', Server(host='0.0.0.0', port=os.environ['PORT']))
 
 
 @manager.command
@@ -17,6 +17,7 @@ def init_db():
     print "Setting up DB"
     from todo.database import init_db
     init_db()
+
 
 @manager.command
 def clear_db():
