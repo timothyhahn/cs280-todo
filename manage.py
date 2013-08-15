@@ -1,13 +1,12 @@
 from flask.ext.script import Manager, Server
-import sys 
 
 from todo import app
-
-import todo.settings as settings
 import os
 
+import todo.settings as settings
+
 PORT=8000
-PORT=sys.argv[2]
+PORT=os.environ['PORT']
 
 app.debug = settings.debug
 app.config['SECRET_KEY'] = settings.secret_key
