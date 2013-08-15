@@ -40,6 +40,7 @@ class Task(Base):
         task_dict['latitude'] = self.notes
         task_dict['longitude'] = self.complete
         task_dict['attachment'] = self.attachment
+        return task_dict
 
 
 class User(Base):
