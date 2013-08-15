@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath todo todo:app 
+web: gunicorn --pythonpath todo todo:app  --debug
