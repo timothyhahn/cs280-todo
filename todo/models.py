@@ -37,8 +37,8 @@ class Task(Base):
         task_dict['user_id'] = self.user_id
         task_dict['notes'] = self.notes
         task_dict['complete'] = self.complete
-        task_dict['latitude'] = self.notes
-        task_dict['longitude'] = self.complete
+        task_dict['latitude'] = self.latitude
+        task_dict['longitude'] = self.longitude
         task_dict['attachment'] = self.attachment
         return task_dict
 
