@@ -5,8 +5,7 @@ import os
 
 import todo.settings as settings
 
-PORT=8000
-PORT=os.environ['PORT']
+PORT = os.environ.get('PORT', 8765)
 
 app.debug = settings.debug
 app.config['SECRET_KEY'] = settings.secret_key
