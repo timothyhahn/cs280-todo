@@ -31,9 +31,9 @@ def get_all_tasks():
 def get_task(task_id):
     task = Task.query.get(task_id)
     if not task:
-        return "Task does not exist"
+        return jsonify(dict())
     if task.user_id != current_user.id:
-        return "You do not own this task"
+        return jsonify(dict().ht)
 
     return jsonify(task.info())
 
@@ -64,9 +64,9 @@ def add_new_task():
 def edit_task(task_id):
     task = Task.query.get(task_id)
     if not task:
-        return "Task does not exist"
+        return jsonify(dict())
     if task.user_id != current_user.id:
-        return "You do not own this task"
+        return jsonify(dict())
 
     task.description = request.form['description']
     task.notes = request.form['notes']
@@ -92,12 +92,12 @@ def edit_task(task_id):
 def delete_task(task_id):
     task = Task.query.get(task_id)
     if not task:
-        return "Task does not exist"
+        return jsonify(dict(status='Failed'))
     if task.user_id != current_user.id:
-        return "You do not own this task"
+        return jsonify(dict(status='Failed'))
     db_session.delete(task)
     db_session.commit()
-    return 'Successfully deleted'
+    return jsonify(dict(status='Success'))
 
 
 @app.route('/login', methods=['POST'])
@@ -106,9 +106,9 @@ def login():
     password = request.authorization['password']
     user = User.query.filter(User.username == username).first()
     if not user or not user.is_valid(password):
-        return 'Invalid credentials'
+        return jsonify(dict(status='Failed'))
     login_user(user)
-    return 'hi'
+    return jsonify(dict(status='Success'))
 
 
 @app.route('/register', methods=['POST'])
@@ -117,12 +117,12 @@ def register():
     password = request.authorization['password']
     user = User.query.filter(User.username == username).first()
     if user:
-        return 'User already exists'
+        return jsonify(dict(status='Failed'))
     user = User(username=username, password=password)
     db_session.add(user)
     db_session.commit()
-    login_manager.login_user(user)
-    return 'hi'
+    login_user(user)
+    return jsonify(dict(status='Success'))
 
 
 # TURN OFF DB

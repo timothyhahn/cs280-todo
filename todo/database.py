@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from settings import database_path
+#from models import Category
 
 ## Create database
 engine = create_engine(database_path, convert_unicode=True)
@@ -25,3 +26,8 @@ def init_db():
 
 def clear_db():
     Base.metadata.drop_all(engine)
+
+def load_db():
+	category = Category(name="Default")
+	db_session.add(category)
+	db_session.commit()
