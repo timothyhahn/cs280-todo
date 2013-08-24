@@ -128,9 +128,9 @@ def login():
     password = request.authorization['password']
     user = User.query.filter(User.username == username).first()
     if not user or not user.is_valid(password):
-        return jsonify(dict(status='Failed'))
+        return jsonify(dict(status='Failed', id=-1))
     login_user(user)
-    return jsonify(dict(status='Success'))
+    return jsonify(user.info())
 
 
 @app.route('/register', methods=['POST'])
