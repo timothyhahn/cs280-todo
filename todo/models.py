@@ -79,7 +79,7 @@ class User(Base):
     def info(self):
         user_dict = dict()
         user_dict['id'] = self.id
-        user_dict['name'] = self.username
+        user_dict['username'] = self.username
         return user_dict
 
     def is_authenticated(self):

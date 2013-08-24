@@ -139,12 +139,12 @@ def register():
     password = request.form['password']
     user = User.query.filter(User.username == username).first()
     if user:
-        return jsonify(dict(status='Failed'))
+        return jsonify(dict(status='Failed', id=-1))
     user = User(username=username, password=password)
     db_session.add(user)
     db_session.commit()
     login_user(user)
-    return jsonify(dict(status='Success'))
+    return jsonify(user.info())
 
 
 # TURN OFF DB
