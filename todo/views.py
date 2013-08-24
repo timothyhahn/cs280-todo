@@ -2,7 +2,7 @@ from todo import app, login_manager
 from flask.ext.login import login_required, login_user, current_user
 from flask import url_for, redirect, request, jsonify
 from database import db_session
-from models import Task, User
+from models import Task, User, Category
 from datetime import datetime
 
 
@@ -47,7 +47,18 @@ def add_new_task():
     longitude = request.form['longitude']
     latitude = request.form['latitude']
     attachment = request.form['attachment']
-    category_id = request.form['category_id']
+    category_name = request.form['category']
+
+    if category_name == '':
+        category_name = 'Default'
+
+    category = Category.query.filter(Category.name == category_name).first()
+    if not category:
+        category = Category(name=category_name)
+        db_session.add(category)
+        db_session.flush()
+    category_id = category.id
+
     if request.form['due_date'] == '':
         due_date = None
     else:
@@ -57,6 +68,17 @@ def add_new_task():
     db_session.add(task)
     db_session.commit()
     return jsonify(task.info())
+
+
+@app.route('/category', methods=['GET'])
+def get_categories():
+    categories = Category.query.all()
+    category_dict = dict()
+    category_list = list()
+    for category in categories:
+        category_list.append(category.info())
+    category_dict['categoories'] = category_list
+    return jsonify(category_dict)
 
 
 @app.route('/task/<int:task_id>', methods=['POST'])
@@ -113,8 +135,8 @@ def login():
 
 @app.route('/register', methods=['POST'])
 def register():
-    username = request.authorization['username']
-    password = request.authorization['password']
+    username = request.form['username']
+    password = request.form['password']
     user = User.query.filter(User.username == username).first()
     if user:
         return jsonify(dict(status='Failed'))

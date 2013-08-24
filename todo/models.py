@@ -10,6 +10,14 @@ class Category(Base):
     name = Column(String(150), nullable=False)
     tasks = relationship('Task', backref='category')
 
+    def __init__(self, name=None):
+        self.name = name
+
+    def info(self):
+        category_dict = dict()
+        category_dict['id'] = self.id
+        category_dict['name'] = self.name
+        return category_dict
 
 class Task(Base):
     __tablename__ = 'task'
@@ -48,6 +56,9 @@ class Task(Base):
         task_dict['latitude'] = self.latitude
         task_dict['longitude'] = self.longitude
         task_dict['attachment'] = self.attachment
+        task_dict['category_id'] = self.category_id
+        category = Category.query.get(self.category_id)
+        task_dict['category_name'] = category.name
         return task_dict
 
 
