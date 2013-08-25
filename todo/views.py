@@ -109,7 +109,18 @@ def edit_task(task_id):
         task.complete = False
     task.latitude = request.form['latitude']
     task.longitude = request.form['longitude']
-    task.category = request.form['category']
+       category_name = request.form['category']
+
+    if category_name == '':
+        category_name = 'Default'
+
+    category = Category.query.filter(Category.name == category_name).first()
+    if not category:
+        category = Category(name=category_name)
+        db_session.add(category)
+        db_session.flush()
+    category_id = category.id
+    task.category_id = category_id
     #task.attachment = request.form['attachment']
     if request.form['due_date'] == '':
         due_date = None
