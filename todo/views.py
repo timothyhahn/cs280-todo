@@ -86,7 +86,7 @@ def get_categories():
     category_list = list()
     for category in categories:
         category_list.append(category.info())
-    category_dict['categoories'] = category_list
+    category_dict['categories'] = category_list
     return jsonify(category_dict)
 
 
