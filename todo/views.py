@@ -17,7 +17,16 @@ def load_user(userid):
 @app.route('/task', methods=['GET'])
 @login_required
 def get_all_tasks():
-    tasks = Task.query.filter(Task.user_id == current_user.id)
+    category_name = None
+    if request.args:
+        category_name = request.args['category']
+
+    print str(category_name)
+    if category_name:
+        category_id = Category.query.filter(Category.name == category_name).first().id
+        tasks = Task.query.filter(Task.user_id == current_user.id).filter(Task.category_id == category_id)
+    else:
+        tasks = Task.query.filter(Task.user_id == current_user.id)
     tasks_dict = dict()
     tasks_list = list()
     for task in tasks:

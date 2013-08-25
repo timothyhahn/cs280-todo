@@ -59,6 +59,7 @@ class Task(Base):
         task_dict['category_id'] = self.category_id
         category = Category.query.get(self.category_id)
         task_dict['category_name'] = category.name
+        task_dict['due_date'] = self.due_date
         return task_dict
 
 
