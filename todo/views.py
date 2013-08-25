@@ -110,11 +110,11 @@ def edit_task(task_id):
     task.latitude = request.form['latitude']
     task.longitude = request.form['longitude']
     task.category = request.form['category']
-    task.attachment = request.form['attachment']
+    #task.attachment = request.form['attachment']
     if request.form['due_date'] == '':
         due_date = None
     else:
-        due_date = datetime.strptime(request.form['due_date'], "%b %d %Y")
+        due_date = datetime.strptime(request.form['due_date'], "%m/%d/%Y")
 
     db_session.commit()
     return jsonify(task.info())
