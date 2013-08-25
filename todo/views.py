@@ -109,7 +109,7 @@ def edit_task(task_id):
         task.complete = False
     task.latitude = request.form['latitude']
     task.longitude = request.form['longitude']
-       category_name = request.form['category']
+    category_name = request.form['category']
 
     if category_name == '':
         category_name = 'Default'
