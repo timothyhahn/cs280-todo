@@ -51,11 +51,13 @@ def get_task(task_id):
 @login_required
 def add_new_task():
     user_id = current_user.id
+
     description = request.form['description']
     notes = request.form['notes']
     longitude = request.form['longitude']
     latitude = request.form['latitude']
-    attachment = request.form['attachment']
+    attachment = None
+    #attachment = request.form['attachment']
     category_name = request.form['category']
 
     if category_name == '':
@@ -71,7 +73,7 @@ def add_new_task():
     if request.form['due_date'] == '':
         due_date = None
     else:
-        due_date = datetime.strptime(request.form['due_date'], "%b %d %Y")
+        due_date = datetime.strptime(request.form['due_date'], "%m/%d/%Y")
 
     task = Task(user_id=user_id, description=description, notes=notes, due_date=due_date, longitude=longitude, latitude=latitude, attachment=attachment, category_id=category_id)
     db_session.add(task)
